@@ -15,9 +15,9 @@ public class BudgetService {
         this.budgetRepository = budgetRepository;
     }
 
-    public List<Budget> getBudgets(){
-        return budgetRepository.findAll();
-    }
+//    public List<Budget> getBudgets(){
+//        return budgetRepository.findAll();
+//    }
 
     public Budget getBudget(Long budgetId){
         return budgetRepository.findById(budgetId).orElseThrow();

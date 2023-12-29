@@ -1,14 +1,17 @@
 package com.model;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 import java.time.LocalDate;
 
 @Entity
 public class Income {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long incomeId;
     private float amount;
     private LocalDate date;
