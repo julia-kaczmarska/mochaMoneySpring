@@ -44,3 +44,4 @@ public class IncomeController {
         incomeService.deleteIncome(income_id);
     }
 }
+//:)
