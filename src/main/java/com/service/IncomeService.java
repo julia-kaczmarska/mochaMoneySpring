@@ -30,4 +30,9 @@ public class IncomeService {
     public Income updateIncome(Income income){
         return incomeRepository.save(income);
     }
+
+    public void deleteIncome(Long income_id){
+        incomeRepository.deleteById(income_id);
+    }
 }
+
