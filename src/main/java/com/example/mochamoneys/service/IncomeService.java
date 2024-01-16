@@ -1,7 +1,7 @@
-package com.service;
+package com.example.mochamoneys.service;
 
-import com.model.Income;
-import com.repository.IncomeRepository;
+import com.example.mochamoneys.model.Income;
+import com.example.mochamoneys.repository.IncomeRepository;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
@@ -18,10 +18,10 @@ public class IncomeService {
         return incomeRepository.findAll();
     }
 
-    public Income getIncome(Long userId, Long incomeId) {
-        return incomeRepository.findByUserIdAndIncomeId(userId, incomeId)
-                .orElseThrow(() -> new EntityNotFoundException("Income not found"));
-    }
+//    public Income getIncome(Long userId, Long incomeId) {
+//        return incomeRepository.findByUserIdAndIncomeId(userId, incomeId)
+//                .orElseThrow(() -> new EntityNotFoundException("Income not found"));
+//    }
 
     public Income createIncome(Income income) {
         return incomeRepository.save(income);

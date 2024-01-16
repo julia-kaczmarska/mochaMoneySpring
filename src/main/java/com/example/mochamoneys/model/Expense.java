@@ -1,4 +1,4 @@
-package com.model;
+package com.example.mochamoneys.model;
 
 
 import javax.persistence.Entity;
@@ -9,20 +9,21 @@ import javax.persistence.Id;
 import java.time.LocalDate;
 
 @Entity
-public class Income {
+public class Expense {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long incomeId;
+    private long expenseId;
     private float amount;
     private LocalDate date;
     private boolean plan;
 
-    public long getIncomeId() {
-        return incomeId;
+
+    public long getExpenseId() {
+        return expenseId;
     }
 
-    public void setIncomeId(long incomeId) {
-        this.incomeId = incomeId;
+    public void setExpenseId(long expenseId) {
+        this.expenseId = expenseId;
     }
 
     public float getAmount() {
@@ -48,4 +49,6 @@ public class Income {
     public void setPlan(boolean plan) {
         this.plan = plan;
     }
+
+
 }

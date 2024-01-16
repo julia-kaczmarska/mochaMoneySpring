@@ -1,4 +1,4 @@
-package com.model;
+package com.example.mochamoneys.model;
 
 
 import javax.persistence.Entity;
@@ -7,20 +7,19 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-
-public class CategoryExp {
+public class CategoryInc {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long categoryExpId;
+    private long categoryIncId;
     private String title;
 
 
-    public long getCategoryExpId() {
-        return categoryExpId;
+    public long getCategoryIncId() {
+        return categoryIncId;
     }
 
-    public void setCategoryExpId(long categoryExpId) {
-        this.categoryExpId = categoryExpId;
+    public void setCategoryIncId(long categoryIncId) {
+        this.categoryIncId = categoryIncId;
     }
 
     public String getTitle() {

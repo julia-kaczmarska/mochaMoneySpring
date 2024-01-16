@@ -1,10 +1,8 @@
-package com.service;
+package com.example.mochamoneys.service;
 
-import com.model.Budget;
-import com.repository.BudgetRepository;
+import com.example.mochamoneys.model.Budget;
+import com.example.mochamoneys.repository.BudgetRepository;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class BudgetService {

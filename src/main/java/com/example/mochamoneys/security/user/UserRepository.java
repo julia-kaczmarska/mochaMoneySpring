@@ -1,9 +1,14 @@
-package com.repository;
+package com.example.mochamoneys.security.user;
 
-import com.model.User;
+import com.example.mochamoneys.security.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
+
+    Optional<User> findByEmail(String email);
+
 }

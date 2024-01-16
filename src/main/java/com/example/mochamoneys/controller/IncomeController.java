@@ -1,7 +1,7 @@
-package com.controller;
+package com.example.mochamoneys.controller;
 
-import com.model.Income;
-import com.service.IncomeService;
+import com.example.mochamoneys.model.Income;
+import com.example.mochamoneys.service.IncomeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -21,10 +21,10 @@ public class IncomeController {
         return incomeService.getIncomes(user_id);
     }
 
-    @GetMapping("/{user_id}/{income_id}")
-    public Income getIncome(@PathVariable Long user_id, @PathVariable Long income_id){
-        return incomeService.getIncome(user_id,income_id);
-    }
+//    @GetMapping("/{user_id}/{income_id}")
+//    public Income getIncome(@PathVariable Long user_id, @PathVariable Long income_id){
+//        return incomeService.getIncome(user_id,income_id);
+//    }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -44,4 +44,3 @@ public class IncomeController {
         incomeService.deleteIncome(income_id);
     }
 }
-//:)
