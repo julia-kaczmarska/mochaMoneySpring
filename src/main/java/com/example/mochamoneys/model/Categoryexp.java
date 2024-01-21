@@ -8,7 +8,7 @@ import javax.persistence.Id;
 
 @Entity
 
-public class CategoryExp {
+public class Categoryexp {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long categoryExpId;
@@ -19,7 +19,7 @@ public class CategoryExp {
         return categoryExpId;
     }
 
-    public void setCategoryExpId(long categoryExpId) {
+    public void setCategoryExpId(long categoryExId) {
         this.categoryExpId = categoryExpId;
     }
 

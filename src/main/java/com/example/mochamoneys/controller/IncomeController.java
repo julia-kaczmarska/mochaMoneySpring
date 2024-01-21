@@ -2,6 +2,7 @@ package com.example.mochamoneys.controller;
 
 import com.example.mochamoneys.model.Income;
 import com.example.mochamoneys.service.IncomeService;
+//??????????????import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -10,13 +11,13 @@ import java.util.List;
 
 @RequestMapping("/income")
 public class IncomeController {
-    @Autowired
+//    @Autowired
     private final IncomeService incomeService;
     public IncomeController(IncomeService incomeService) {
         this.incomeService = incomeService;
     }
 
-    @GetMapping("/{user_id}")
+    @GetMapping("")
     public List<Income> getIncomes(@PathVariable Long user_id){
         return incomeService.getIncomes(user_id);
     }

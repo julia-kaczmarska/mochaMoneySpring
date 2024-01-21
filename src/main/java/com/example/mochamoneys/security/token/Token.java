@@ -1,6 +1,6 @@
 package com.example.mochamoneys.security.token;
 
-import com.alibou.security.user.User;
+import com.example.mochamoneys.security.user.User;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;

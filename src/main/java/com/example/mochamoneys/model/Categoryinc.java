@@ -7,19 +7,19 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class CategoryInc {
+public class Categoryinc {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long categoryIncId;
+    private long categoryInc_id;
     private String title;
 
 
     public long getCategoryIncId() {
-        return categoryIncId;
+        return categoryInc_id;
     }
 
     public void setCategoryIncId(long categoryIncId) {
-        this.categoryIncId = categoryIncId;
+        this.categoryInc_id = categoryIncId;
     }
 
     public String getTitle() {

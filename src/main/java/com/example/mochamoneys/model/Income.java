@@ -12,17 +12,17 @@ import java.time.LocalDate;
 public class Income {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long incomeId;
+    private long income_id;
     private float amount;
     private LocalDate date;
     private boolean plan;
 
     public long getIncomeId() {
-        return incomeId;
+        return income_id;
     }
 
     public void setIncomeId(long incomeId) {
-        this.incomeId = incomeId;
+        this.income_id = incomeId;
     }
 
     public float getAmount() {

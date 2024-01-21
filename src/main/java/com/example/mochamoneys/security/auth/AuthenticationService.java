@@ -1,6 +1,11 @@
 package com.example.mochamoneys.security.auth;
 
 
+import com.example.mochamoneys.security.JwtService;
+import com.example.mochamoneys.security.token.Token;
+import com.example.mochamoneys.security.token.TokenRepository;
+import com.example.mochamoneys.security.token.TokenType;
+import com.example.mochamoneys.security.user.User;
 import com.example.mochamoneys.security.user.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javax.servlet.http.HttpServletRequest;
@@ -25,8 +30,7 @@ public class AuthenticationService {
 
     public AuthenticationResponse register(RegisterRequest request) {
         var user = User.builder()
-                .firstname(request.getFirstname())
-                .lastname(request.getLastname())
+                .name(request.getFirstname())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(request.getRole())
@@ -72,7 +76,7 @@ public class AuthenticationService {
     }
 
     private void revokeAllUserTokens(User user) {
-        var validUserTokens = tokenRepository.findAllValidTokenByUser(user.getId());
+        var validUserTokens = tokenRepository.findAllValidTokenByUser(Long.valueOf(user.getId()));
         if (validUserTokens.isEmpty())
             return;
         validUserTokens.forEach(token -> {

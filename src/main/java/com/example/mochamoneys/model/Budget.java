@@ -14,7 +14,6 @@ public class Budget {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long budgetId;
-    private String title;
 
 
     public long getBudgetId() {
@@ -25,12 +24,5 @@ public class Budget {
         this.budgetId = budgetId;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
 
 }

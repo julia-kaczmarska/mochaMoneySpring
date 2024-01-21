@@ -12,18 +12,18 @@ import java.time.LocalDate;
 public class Expense {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long expenseId;
+    private long expense_id;
     private float amount;
     private LocalDate date;
     private boolean plan;
 
 
     public long getExpenseId() {
-        return expenseId;
+        return expense_id;
     }
 
     public void setExpenseId(long expenseId) {
-        this.expenseId = expenseId;
+        this.expense_id = expenseId;
     }
 
     public float getAmount() {

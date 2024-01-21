@@ -1,28 +1,28 @@
 package com.example.mochamoneys.security.user;
 
-
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+import com.example.mochamoneys.security.token.Token;
 
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.List;
 
-@Entity
+import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 @Data
+@Entity
 @Builder
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long userId;
+    private Long user_id;
     private String name;
     private String email;
     private String password;
@@ -34,6 +34,18 @@ public class User implements UserDetails {
         return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
+    @OneToMany(mappedBy = "user")
+    private List<Token> tokens;
+
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
     @Override
     public String getUsername() {
         return email;
@@ -41,26 +53,25 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 
-    @Override
-    public String getPassword(){
-        return password;
+    public Long getId() {
+        return user_id;
     }
 }
