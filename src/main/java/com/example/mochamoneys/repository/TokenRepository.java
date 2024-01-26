@@ -1,10 +1,12 @@
-package com.example.mochamoneys.security.token;
+package com.example.mochamoneys.repository;
 
+
+import com.example.mochamoneys.model.Token;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 import java.util.Optional;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 
 public interface TokenRepository extends JpaRepository<Token, Integer> {
 

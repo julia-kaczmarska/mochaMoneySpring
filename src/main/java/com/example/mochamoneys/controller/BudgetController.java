@@ -1,87 +1,55 @@
 package com.example.mochamoneys.controller;
 
+import com.example.mochamoneys.controller.dto.BudgetDto;
+import com.example.mochamoneys.controller.mapper.BudgetDtoMapper;
+import com.example.mochamoneys.model.Budget;
+import com.example.mochamoneys.service.BudgetService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.RestController;
-//import org.springframework.hateoas.CollectionModel;
-//import org.springframework.hateoas.EntityModel;
-
-
-//import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-//import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 public class BudgetController {
-    /**public static final Long EMPTY_ID = null;
 
     private final BudgetService budgetService;
 
-    public BudgetController(BudgetService budgetService) {
-        this.budgetService = budgetService;
+    @GetMapping("budgets")
+    public List<BudgetDto> getBudget(@RequestParam(required = false) Integer page, Sort.Direction sort) {
+        int pageNumber = page != null && page >= 0 ? page : 0;
+        Sort.Direction sortDirection = sort != null ? sort : Sort.Direction.ASC;
+        return BudgetDtoMapper.mapToBudgetDtos(budgetService.getBudgets(pageNumber, sortDirection));
     }
 
-    @GetMapping("/budget")
-    public Budget getBudget(@PathVariable long id) {
-        return budgetService.getBudget();
-    }
-
-
-    @GetMapping("/budgets")
-    public CollectionModel<EntityModel<Budget>> getBudget() {
-        List<EntityModel<Budget>> budget = budgetService.getBudgets().stream()
-                .map(budget -> EntityModel.of(budget,
-                        linkTo(methodOn(BudgetController.class).getBudget(budget.getBudgetId())).withSelfRel(),
-                        linkTo(methodOn(BudgetController.class).gestBudgets()).withRel("budgets")
-                ))
-                .toList();
-        return CollectionModel.of(budgets,
-                linkTo(methodOn(BudgetController.class).getBudgets()).withSelfRel()
-        );
+    @GetMapping("/budgets/data")
+    public List<Budget> getBudgetsWithData(@RequestParam(required = false) Integer page, Sort.Direction sort) {
+        int pageNumber = page != null && page >= 0 ? page : 0;
+        Sort.Direction sortDirection = sort != null ? sort : Sort.Direction.ASC;
+        return budgetService.getBudgetsWithData(pageNumber, sortDirection);
     }
 
     @GetMapping("/budgets/{id}")
-    public EntityModel<Budget> getBudget(@PathVariable Long id) {
-        return EntityModel.of(budgetService.getBudget(id),
-                linkTo(methodOn(BudgetController.class).getBudget(id)).withSelfRel(),
-                linkTo(methodOn(BudgetController.class).getBudgets()).withRel("budgets"),
-                linkTo(BudgetController.class).slash("budgets").slash(id).slash("deactivate")
-                        .withRel("deactivate")
-        );
+    public Budget getSingleBudget(@PathVariable long id) {
+        var budget = id != 0 ? id : 1;
+        return budgetService.getSingleBudget(budget);
     }
 
+    //NIE DZIAŁA POPRAWNIE - LUB NIE UMIEM UZYWAC
     @PostMapping("/budgets")
-    public ResponseEntity<EntityModel<Budget>> createBudget(@RequestBody BudgetDto budgetDto) {
-        Budget employee = budgetService.createBudget(new Budget(
-                EMPTY_ID,
-                budgetDto.getTitle()
-        ));
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(EntityModel.of(employee,
-                        linkTo(methodOn(BudgetController.class).createBudget(budgetDto)).withSelfRel(),
-                        linkTo(methodOn(BudgetController.class).getBudgets()).withRel("budgets"),
-                        linkTo(BudgetController.class).slash("budgets").slash(employee.getBudgetId()).slash("deactivate")
-                                .withRel("deactivate")
-                ));
-
+    public Budget addBudget(@RequestBody Budget budget) {
+        return budgetService.addBudget(budget);
     }
 
-    @PutMapping("/budgets/{id}")
-    public ResponseEntity<Object> updateBudget(@PathVariable Long id, @RequestBody BudgetDto budgetDto) {
-        employeeService.updateBudget(new Budget(
-                id,
-                budgetDto.getTitle()
-        ));
-        return ResponseEntity.noContent().build();
+    @PutMapping("/budgets")
+    public Budget editBudget(@RequestBody Budget budget) {
+        return budgetService.editBudget(budget);
     }
 
     @DeleteMapping("/budgets/{id}")
-    public ResponseEntity<Object> deleteBudget(@PathVariable Long id) {
+    public void deleteBudget(@PathVariable long id) {
         budgetService.deleteBudget(id);
-        return ResponseEntity.noContent().build();
     }
-
-    @PutMapping("/budgets/{id}/deactivate")
-    public void deactivateBudget(@PathVariable Long id) {
-**/
-    }
-
+}
 

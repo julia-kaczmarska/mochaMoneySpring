@@ -1,6 +1,6 @@
 package com.example.mochamoneys.security;
 
-import com.example.mochamoneys.security.user.User;
+import com.example.mochamoneys.model.User;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;

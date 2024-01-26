@@ -5,7 +5,8 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class BudgetDto {
+public class CategoryincDto {
     private long id;
     private String title;
+    private long userId;
 }

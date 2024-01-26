@@ -9,15 +9,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static com.example.mochamoneys.security.user.Permission.ADMIN_CREATE;
-import static com.example.mochamoneys.security.user.Permission.ADMIN_DELETE;
-import static com.example.mochamoneys.security.user.Permission.ADMIN_READ;
-import static com.example.mochamoneys.security.user.Permission.ADMIN_UPDATE;
-import static com.example.mochamoneys.security.user.Permission.MANAGER_CREATE;
-import static com.example.mochamoneys.security.user.Permission.MANAGER_DELETE;
-import static com.example.mochamoneys.security.user.Permission.MANAGER_READ;
-import static com.example.mochamoneys.security.user.Permission.MANAGER_UPDATE;
-
 @RequiredArgsConstructor
 public enum Role {
 

@@ -1,34 +1,23 @@
 package com.example.mochamoneys.model;
 
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
-
+@Getter
+@Setter
 public class Categoryexp {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long categoryExpId;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
     private String title;
-
-
-    public long getCategoryExpId() {
-        return categoryExpId;
-    }
-
-    public void setCategoryExpId(long categoryExId) {
-        this.categoryExpId = categoryExpId;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
+    private long userId;
+    @OneToMany(cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "budgetId", updatable = false, insertable = false)
+    private List<Expense> expense;
 
 }
