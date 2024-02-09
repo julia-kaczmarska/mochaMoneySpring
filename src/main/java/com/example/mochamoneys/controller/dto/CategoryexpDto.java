@@ -6,7 +6,7 @@ import lombok.Getter;
 @Getter
 @Builder
 public class CategoryexpDto {
-    private long id;
+    private long categoryexpId;
     private String title;
     private long userId;
 }

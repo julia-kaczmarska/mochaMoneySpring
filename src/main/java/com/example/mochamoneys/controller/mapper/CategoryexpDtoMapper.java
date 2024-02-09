@@ -21,7 +21,7 @@ public class CategoryexpDtoMapper {
 
     private static CategoryexpDto mapToCategoryexpDto(Categoryexp categoryexp) {
         return CategoryexpDto.builder()
-                .id(categoryexp.getId())
+                .categoryexpId(categoryexp.getCategoryexpId())
                 .title(categoryexp.getTitle())
                 .userId(categoryexp.getUserId())
                 .build();

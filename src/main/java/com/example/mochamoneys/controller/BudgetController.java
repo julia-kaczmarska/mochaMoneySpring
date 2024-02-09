@@ -1,9 +1,12 @@
 package com.example.mochamoneys.controller;
 
 import com.example.mochamoneys.controller.dto.BudgetDto;
+import com.example.mochamoneys.controller.dto.IncomeDto;
 import com.example.mochamoneys.controller.mapper.BudgetDtoMapper;
+import com.example.mochamoneys.controller.mapper.IncomeDtoMapper;
 import com.example.mochamoneys.model.Budget;
 import com.example.mochamoneys.service.BudgetService;
+import com.example.mochamoneys.service.IncomeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
@@ -15,26 +18,63 @@ import java.util.List;
 public class BudgetController {
 
     private final BudgetService budgetService;
+    private final IncomeService incomeService;
+
+
+//    @GetMapping("budgets")
+//    public List<BudgetDto> getBudget(@RequestParam(required = false) Integer page, Sort.Direction sort) {
+//        int pageNumber = page != null && page >= 0 ? page : 0;
+//        Sort.Direction sortDirection = sort != null ? sort : Sort.Direction.ASC;
+//        return BudgetDtoMapper.mapToBudgetDtos(budgetService.getBudgets(pageNumber, sortDirection));
+//    }
 
     @GetMapping("budgets")
     public List<BudgetDto> getBudget(@RequestParam(required = false) Integer page, Sort.Direction sort) {
         int pageNumber = page != null && page >= 0 ? page : 0;
         Sort.Direction sortDirection = sort != null ? sort : Sort.Direction.ASC;
-        return BudgetDtoMapper.mapToBudgetDtos(budgetService.getBudgets(pageNumber, sortDirection));
+
+        List<Budget> budgets = budgetService.getBudgets(pageNumber, sortDirection);
+        List<BudgetDto> budgetDtos = BudgetDtoMapper.mapToBudgetDtos(budgets);
+
+        // Dla każdego budżetu pobieramy przychody i dodajemy je do odpowiadającego DTO
+        for (Budget budget : budgets) {
+            List<IncomeDto> incomeDtos = IncomeDtoMapper.mapToIncomeDtos(budget.getIncome());
+            // Ustawiamy przychody w DTO budżetu
+            for (BudgetDto budgetDto : budgetDtos) {
+                if (budgetDto.getBudgetId() == budget.getBudgetId()) {
+//                    budgetDto.setIncomes(incomeDtos);
+                    break;
+                }
+            }
+        }
+
+        return budgetDtos;
     }
 
-    @GetMapping("/budgets/data")
-    public List<Budget> getBudgetsWithData(@RequestParam(required = false) Integer page, Sort.Direction sort) {
-        int pageNumber = page != null && page >= 0 ? page : 0;
-        Sort.Direction sortDirection = sort != null ? sort : Sort.Direction.ASC;
-        return budgetService.getBudgetsWithData(pageNumber, sortDirection);
-    }
+
+
+//    @GetMapping("/budgets/data")
+//    public List<Budget> getBudgetsWithData(@RequestParam(required = false) Integer page, Sort.Direction sort) {
+//        int pageNumber = page != null && page >= 0 ? page : 0;
+//        Sort.Direction sortDirection = sort != null ? sort : Sort.Direction.ASC;
+//        return budgetService.getBudgetsWithData(pageNumber, sortDirection);
+//    }
 
     @GetMapping("/budgets/{id}")
-    public Budget getSingleBudget(@PathVariable long id) {
-        var budget = id != 0 ? id : 1;
-        return budgetService.getSingleBudget(budget);
+    public BudgetDto getSingleBudget(@PathVariable long id) {
+        var budgetId = id != 0 ? id : 1;
+        Budget budget = budgetService.getSingleBudget(budgetId);
+        BudgetDto budgetDto = BudgetDtoMapper.mapToBudgetDto(budget);
+
+        // Pobieramy przychody dla danego budżetu i mapujemy je na DTO
+        List<IncomeDto> incomesForBudget = budgetDto.getIncomesForBudget(budgetId);
+        // Ustawiamy przychody w DTO budżetu
+        budgetDto.setIncomes(incomesForBudget);
+
+        return budgetDto;
     }
+
+
 
     //NIE DZIAŁA POPRAWNIE - LUB NIE UMIEM UZYWAC
     @PostMapping("/budgets")

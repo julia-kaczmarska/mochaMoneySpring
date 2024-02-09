@@ -23,7 +23,7 @@ public class BudgetService {
 
     private static final int PAGE_SIZE = 3;
     private final BudgetRepository budgetRepository;
-//    private final ExpenseRepository expenseRepository;
+    //    private final ExpenseRepository expenseRepository;
 //    private final IncomeRepository incomeRepository;
     private final UserRepository userRepository;
 
@@ -40,23 +40,23 @@ public class BudgetService {
                 .orElseThrow();
     }
 
-    public List<Budget> getBudgetsWithData(int page, Sort.Direction sort) {
-        List<Budget> allBudgets = budgetRepository.findAllBudgets(PageRequest.of(page, PAGE_SIZE,
-                Sort.by(sort, "id")
-        ));
-        List<Long> ids = allBudgets.stream()
-                .map(Budget::getId)
-                .collect(Collectors.toList());
-        List<User> users = userRepository.findAllByBudgetIdIn(ids);
-        allBudgets.forEach(budget -> budget.setUser(extractUsers(users, budget.getId())));
-        return allBudgets;
-    }
+//    public List<Budget> getBudgetsWithData(int page, Sort.Direction sort) {
+//        List<Budget> allBudgets = budgetRepository.findAllBudgets(PageRequest.of(page, PAGE_SIZE,
+//                Sort.by(sort, "id")
+//        ));
+//        List<Long> ids = allBudgets.stream()
+//                .map(Budget::getBudgetId)
+//                .collect(Collectors.toList());
+//        List<User> users = userRepository.findAllByBudgetIdIn(ids);
+//        allBudgets.forEach(budget -> budget.setUser(extractUsers(users, budget.getBudgetId())));
+//        return allBudgets;
+//    }
 
-    private List<User> extractUsers(List<User> users, long id) {
-        return users.stream()
-                .filter(user -> user.getBudgetId() == id)
-                .collect(Collectors.toList());
-    }
+//    private List<User> extractUsers(List<User> users, long id) {
+//        return users.stream()
+//                .filter(user -> user.getBudgetId() == id)
+//                .collect(Collectors.toList());
+//    }
 
     public Budget addBudget(Budget budget) {
         return budgetRepository.save(budget);
@@ -64,8 +64,7 @@ public class BudgetService {
 
     @Transactional
     public Budget editBudget(Budget budget) {
-        Budget budgetEdited = budgetRepository.findById(budget.getId()).orElseThrow();
-        budgetEdited.setTitle(budget.getTitle());
+        Budget budgetEdited = budgetRepository.findById(budget.getBudgetId()).orElseThrow();
         return budgetEdited;
     }
 

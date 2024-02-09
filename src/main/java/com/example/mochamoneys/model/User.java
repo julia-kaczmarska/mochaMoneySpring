@@ -2,7 +2,7 @@ package com.example.mochamoneys.model;
 
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -12,15 +12,15 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
-@NoArgsConstructor
+@RequiredArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private long userId;
     private String name;
     private String email;
     private String password;
-    private long budgetId;
+//    private long budgetId;
 
     @OneToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "userId", updatable = false, insertable = false)
@@ -30,14 +30,15 @@ public class User {
     @JoinColumn(name = "userId", updatable = false, insertable = false)
     private List<Categoryinc> categoryinc;
 
+
     // Explicit constructor
-    public User(long id, String name, String email, String password, long budgetId,
+    public User(long userId, String name, String email, String password,
                 List<Categoryexp> categoryexp, List<Categoryinc> categoryinc) {
-        this.id = id;
+        this.userId = userId;
         this.name = name;
         this.email = email;
         this.password = password;
-        this.budgetId = budgetId;
+//        this.budgetId = budgetId;
         this.categoryexp = categoryexp;
         this.categoryinc = categoryinc;
     }
@@ -54,7 +55,9 @@ public class User {
         private String name;
         private String email;
         private String password;
-        private long budgetId;
+
+//        private long budgetId;
+
         private List<Categoryexp> categoryexp;
         private List<Categoryinc> categoryinc;
 
@@ -74,10 +77,10 @@ public class User {
             return this;
         }
 
-        public UserBuilder budgetId(long budgetId) {
-            this.budgetId = budgetId;
-            return this;
-        }
+//        public UserBuilder budgetId(long budgetId) {
+//            this.budgetId = budgetId;
+//            return this;
+//        }
 
         public UserBuilder categoryexp(List<Categoryexp> categoryexp) {
             this.categoryexp = categoryexp;
@@ -91,7 +94,7 @@ public class User {
 
         // Build method
         public User build() {
-            return new User(id, name, email, password, budgetId, categoryexp, categoryinc);
+            return new User(userId, name, email, password, categoryexp, categoryinc);
         }
     }
 }

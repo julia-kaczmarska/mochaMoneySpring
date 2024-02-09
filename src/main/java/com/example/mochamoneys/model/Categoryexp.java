@@ -13,11 +13,11 @@ import java.util.List;
 public class Categoryexp {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private long categoryexpId;
     private String title;
     private long userId;
-    @OneToMany(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "budgetId", updatable = false, insertable = false)
-    private List<Expense> expense;
+//    @OneToMany(cascade = CascadeType.REMOVE)
+//    @JoinColumn(name = "categoryexpId", updatable = false, insertable = false)
+//    private List<Expense> expense;
 
 }

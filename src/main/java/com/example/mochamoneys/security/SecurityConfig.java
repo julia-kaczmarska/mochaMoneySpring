@@ -22,42 +22,34 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @EnableMethodSecurity
 public class SecurityConfig {
 
-    private final JwtAuthenticationFilter jwtAuthFilter;
-    private final AuthenticationProvider authenticationProvider;
-    private final LogoutHandler logoutHandler;
-
-    private static final String[] WHITE_LIST_URL = {
-            "/api/v1/auth/**",
+    private static final String[] WHITE_LIST_URL = {"/api/v1/auth/**",
             "/v2/api-docs",
-            "/v2/api-docs/**",
             "/v3/api-docs",
             "/v3/api-docs/**",
             "/swagger-resources",
             "/swagger-resources/**",
             "/configuration/ui",
             "/configuration/security",
+            "/swagger-ui",
             "/swagger-ui/",
             "/swagger-ui/**",
             "/webjars/**",
-            "/**",
-            "/swagger-ui.html"
-    };
+            "/swagger-ui.html"};
+    private final JwtAuthenticationFilter jwtAuthFilter;
+    private final AuthenticationProvider authenticationProvider;
+    private final LogoutHandler logoutHandler;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .cors().and() //**
-                .csrf(csrf -> csrf
-                        .ignoringAntMatchers("/**", "/v2/api-docs", "/v3/api-docs", "/swagger-resources/**", "/swagger-ui/**", "/webjars/**")
-                )
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .antMatchers("/login", "/signin", "/home").permitAll()
                         .antMatchers(HttpMethod.GET, "/budget/**", "/income/**").hasRole("USER") // Zalogowani użytkownicy mogą używać GET na /api/**
                         .antMatchers(HttpMethod.POST, "/income/**", "/expense/**").hasRole("USER") // Zalogowani użytkownicy mogą używać POST na /api/**
                         .antMatchers(HttpMethod.PUT, "/income/**", "/expense/**").hasRole("USER") // Zalogowani użytkownicy mogą używać PUT na /api/**
                         .antMatchers(HttpMethod.DELETE, "/income/**", "/expense/**").hasRole("USER") // Zalogowani użytkownicy mogą używać DELETE na /api/**
-                        .antMatchers("/**", "/swagger-ui/", "/swagger-ui/**", "/swagger-resources/**").permitAll()
-                        .antMatchers("/v2/api-docs", "/v3/api-docs", "/swagger-resources/**", "/swagger-ui/**", "/webjars/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))

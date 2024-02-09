@@ -17,10 +17,9 @@ public class BudgetDtoMapper {
                 .collect(Collectors.toList());
     }
 
-    private static BudgetDto mapToBudgetDto(Budget budget) {
+    public static BudgetDto mapToBudgetDto(Budget budget) {
         return BudgetDto.builder()
-                .id(budget.getId())
-                .title(budget.getTitle())
+                .budgetId(budget.getBudgetId())
                 .build();
     }
 }

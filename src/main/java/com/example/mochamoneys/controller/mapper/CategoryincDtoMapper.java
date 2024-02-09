@@ -1,8 +1,6 @@
 package com.example.mochamoneys.controller.mapper;
 
-import com.example.mochamoneys.controller.dto.CategoryexpDto;
 import com.example.mochamoneys.controller.dto.CategoryincDto;
-import com.example.mochamoneys.model.Categoryexp;
 import com.example.mochamoneys.model.Categoryinc;
 
 import java.util.List;
@@ -21,7 +19,7 @@ public class CategoryincDtoMapper {
 
     private static CategoryincDto mapToCategoryincDto(Categoryinc categoryinc) {
         return CategoryincDto.builder()
-                .id(categoryinc.getId())
+                .categoryincId(categoryinc.getCategoryincId())
                 .title(categoryinc.getTitle())
                 .userId(categoryinc.getUserId())
                 .build();

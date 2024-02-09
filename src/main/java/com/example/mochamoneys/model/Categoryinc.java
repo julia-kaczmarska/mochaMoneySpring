@@ -13,9 +13,10 @@ import java.util.List;
 public class Categoryinc {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private long categoryincId;
     private String title;
     private long userId;
+
     @OneToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "categoryincId", updatable = false, insertable = false)
     private List<Income> income;
