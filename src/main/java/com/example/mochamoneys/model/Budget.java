@@ -16,9 +16,9 @@ public class Budget {
     private long budgetId;
     private long userId;
 
-    @OneToMany(cascade = CascadeType.REMOVE)
+    @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "userId", updatable = false, insertable = false)
-    private List<User> user;
+    private User user;
     @OneToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "budgetId", updatable = false, insertable = false)
     private List<Expense> expense;

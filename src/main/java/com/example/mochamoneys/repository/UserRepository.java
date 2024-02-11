@@ -10,7 +10,6 @@ import java.util.List;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-    List<User> findAllByBudgetIdIn(List<Long> ids);
     @Query("SELECT DISTINCT u FROM User u")
     List<User> findAllUsers(Pageable page);
 

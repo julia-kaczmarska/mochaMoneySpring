@@ -12,13 +12,13 @@ public class UserController {
 
     private final UserService userService;
 
-    @GetMapping("login/{id}")
+    @GetMapping("login")
     public User getSingleUser(@PathVariable long id) {
         var user = id != 0 ? id : 1;
         return userService.getSingleUser(user);
     }
 
-    @PostMapping("/signin")
+    @PostMapping("signin")
     public User addUser(@RequestBody User user) {
         return userService.addUser(user);
     }
