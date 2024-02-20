@@ -16,8 +16,8 @@ public class Categoryexp {
     private long categoryexpId;
     private String title;
     private long userId;
-//    @OneToMany(cascade = CascadeType.REMOVE)
-//    @JoinColumn(name = "categoryexpId", updatable = false, insertable = false)
-//    private List<Expense> expense;
+    @OneToMany(cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "categoryexpId", updatable = false, insertable = false)
+    private List<Expense> expense;
 
 }

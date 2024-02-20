@@ -9,7 +9,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ExpenseRepository extends JpaRepository<Expense, Long> {
+public interface
+ExpenseRepository extends JpaRepository<Expense, Long> {
 
     @Query("SELECT DISTINCT e FROM Expense e")
     List<Expense> findAllExpenses(Pageable page);

@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -27,13 +29,14 @@ public class BudgetController {
 //        Sort.Direction sortDirection = sort != null ? sort : Sort.Direction.ASC;
 //        return BudgetDtoMapper.mapToBudgetDtos(budgetService.getBudgets(pageNumber, sortDirection));
 //    }
+//
 
-    @GetMapping("budgets")
-    public List<BudgetDto> getBudget(@RequestParam(required = false) Integer page, Sort.Direction sort) {
+    @GetMapping("budget/{user_id}")
+    public List<BudgetDto> getBudget(@RequestParam Long userId, @RequestParam(required = false) Integer page, @RequestParam(required = false) Sort.Direction sort) {
         int pageNumber = page != null && page >= 0 ? page : 0;
         Sort.Direction sortDirection = sort != null ? sort : Sort.Direction.ASC;
 
-        List<Budget> budgets = budgetService.getBudgets(pageNumber, sortDirection);
+        List<Budget> budgets = budgetService.getBudgetByUserId(userId, pageNumber, sortDirection);
         List<BudgetDto> budgetDtos = BudgetDtoMapper.mapToBudgetDtos(budgets);
 
         // Dla każdego budżetu pobieramy przychody i dodajemy je do odpowiadającego DTO
@@ -42,7 +45,7 @@ public class BudgetController {
             // Ustawiamy przychody w DTO budżetu
             for (BudgetDto budgetDto : budgetDtos) {
                 if (budgetDto.getBudgetId() == budget.getBudgetId()) {
-//                    budgetDto.setIncomes(incomeDtos);
+                    budgetDto.setIncomes(incomeDtos);
                     break;
                 }
             }
@@ -50,6 +53,8 @@ public class BudgetController {
 
         return budgetDtos;
     }
+
+
 
 
 

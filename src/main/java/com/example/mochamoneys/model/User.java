@@ -4,8 +4,10 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -20,7 +22,8 @@ public class User {
     private String name;
     private String email;
     private String password;
-//    private long budgetId;
+    private String role;
+
 
     @OneToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "userId", updatable = false, insertable = false)
@@ -32,13 +35,13 @@ public class User {
 
 
     // Explicit constructor
-    public User(long userId, String name, String email, String password,
+    public User(long userId, String name, String email, String password, String role,
                 List<Categoryexp> categoryexp, List<Categoryinc> categoryinc) {
         this.userId = userId;
         this.name = name;
         this.email = email;
         this.password = password;
-//        this.budgetId = budgetId;
+        this.role = role;
         this.categoryexp = categoryexp;
         this.categoryinc = categoryinc;
     }
@@ -50,13 +53,14 @@ public class User {
         return new UserBuilder();
     }
 
+
     public static class UserBuilder {
         // Builder methods for individual fields if needed
         private String name;
         private String email;
         private String password;
 
-//        private long budgetId;
+        private String role;
 
         private List<Categoryexp> categoryexp;
         private List<Categoryinc> categoryinc;
@@ -94,7 +98,7 @@ public class User {
 
         // Build method
         public User build() {
-            return new User(userId, name, email, password, categoryexp, categoryinc);
+            return new User(userId, name, email, password, role, categoryexp, categoryinc);
         }
     }
 }

@@ -4,6 +4,9 @@ import com.example.mochamoneys.model.User;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,4 +17,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findAllUsers(Pageable page);
 
     List<User> findByEmailIn(List<String> emails);
+
+    User findByUsername(String username);
 }

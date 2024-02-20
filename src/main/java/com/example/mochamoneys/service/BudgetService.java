@@ -10,10 +10,16 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,15 +31,13 @@ public class BudgetService {
     private final BudgetRepository budgetRepository;
     //    private final ExpenseRepository expenseRepository;
 //    private final IncomeRepository incomeRepository;
-    private final UserRepository userRepository;
-
-    public List<Budget> getBudgets(int page, Sort.Direction sort) {
-        return budgetRepository.findAllBudgets(
-                PageRequest.of(page, PAGE_SIZE,
-                        Sort.by(sort, "id")
-                )
+    public List<Budget> getBudgetByUserId(Long userId, int page, Sort.Direction sort) {
+        return budgetRepository.findBudgetByUserId(
+                userId,
+                PageRequest.of(page, PAGE_SIZE, sort, "id")
         );
     }
+
 
     public Budget getSingleBudget(long id) {
         return budgetRepository.findById(id)
@@ -70,6 +74,16 @@ public class BudgetService {
 
     public void deleteBudget(long id) {
         budgetRepository.deleteById(id);
+    }
+
+    public List<Budget> getBudgetByUserId() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication instanceof UsernamePasswordAuthenticationToken) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            Long userId = Long.parseLong(userDetails.getUsername());
+            return budgetRepository.findBudgetByUserId(userId, Pageable.ofSize(PAGE_SIZE));
+        }
+        return Collections.emptyList();
     }
 
 }
