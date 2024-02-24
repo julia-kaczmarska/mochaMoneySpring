@@ -13,10 +13,10 @@ import java.util.List;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-    @Query("SELECT DISTINCT u FROM User u")
-    List<User> findAllUsers(Pageable page);
+//    @Query("SELECT DISTINCT u FROM User u")
+//    List<User> findAllUsers(Pageable page);
 
-    List<User> findByEmailIn(List<String> emails);
+    User findByEmail(String email);
 
-    User findByUsername(String username);
+//    User findByUsername(String username);
 }

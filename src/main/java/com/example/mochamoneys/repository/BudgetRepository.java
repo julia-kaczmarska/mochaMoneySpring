@@ -14,9 +14,9 @@ import java.util.List;
 
 @Repository
 public interface BudgetRepository extends JpaRepository<Budget, Long> {
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-    String userId = userDetails.getUsername(); // Przykładowe uzyskanie user_id
+//    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//    UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+//    String userId = userDetails.getUsername(); // Przykładowe uzyskanie user_id
     @Query("SELECT DISTINCT b FROM Budget b WHERE b.userId = :uid")
     List<Budget> findBudgetByUserId(@Param("uid") Long userId, Pageable page);
 }

@@ -1,14 +1,17 @@
 package com.example.mochamoneys.controller.dto;
 
-import lombok.Builder;
-import lombok.Getter;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+
+@RequiredArgsConstructor
 @Getter
-@Builder
-public class UserDto {
-    private long userId;
+@Setter
+public class UserRegistrationDto {
     private String name;
     private String email;
     private String password;
+
 
 }

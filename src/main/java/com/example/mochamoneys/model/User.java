@@ -4,10 +4,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
-import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -25,80 +23,83 @@ public class User {
     private String role;
 
 
-    @OneToMany(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "userId", updatable = false, insertable = false)
-    private List<Categoryexp> categoryexp;
+//    @OneToMany(cascade = CascadeType.REMOVE)
+//    @JoinColumn(name = "userId", updatable = false, insertable = false)
+//    private List<Categoryexp> categoryexp;
+//
+//    @OneToMany(cascade = CascadeType.REMOVE)
+//    @JoinColumn(name = "userId", updatable = false, insertable = false)
+//    private List<Categoryinc> categoryinc;
 
-    @OneToMany(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "userId", updatable = false, insertable = false)
-    private List<Categoryinc> categoryinc;
 
-
-    // Explicit constructor
-    public User(long userId, String name, String email, String password, String role,
-                List<Categoryexp> categoryexp, List<Categoryinc> categoryinc) {
-        this.userId = userId;
+    public User(String name, String email, String password) {
+        super();
         this.name = name;
         this.email = email;
         this.password = password;
-        this.role = role;
-        this.categoryexp = categoryexp;
-        this.categoryinc = categoryinc;
+        this.role = "ROLE_USER";
     }
+
+//    public void setRole(){
+//        this.role = "ROLE_USER";
+//    }
+//
+//    public String getRole() {
+//        return role;
+//    }
 
     // Other methods
 
     // Builder methods if needed
-    public static UserBuilder builder() {
-        return new UserBuilder();
-    }
+//    public static UserBuilder builder() {
+//        return new UserBuilder();
+//    }
 
 
-    public static class UserBuilder {
-        // Builder methods for individual fields if needed
-        private String name;
-        private String email;
-        private String password;
+//    public static class UserBuilder {
+//        // Builder methods for individual fields if needed
+//        private String name;
+//        private String email;
+//        private String password;
 
-        private String role;
+//        private String role;
 
-        private List<Categoryexp> categoryexp;
-        private List<Categoryinc> categoryinc;
-
-        // Builder methods for individual fields
-        public UserBuilder name(String name) {
-            this.name = name;
-            return this;
-        }
-
-        public UserBuilder email(String email) {
-            this.email = email;
-            return this;
-        }
-
-        public UserBuilder password(String password) {
-            this.password = password;
-            return this;
-        }
+//        private List<Categoryexp> categoryexp;
+//        private List<Categoryinc> categoryinc;
+//
+//        // Builder methods for individual fields
+//        public UserBuilder name(String name) {
+//            this.name = name;
+//            return this;
+//        }
+//
+//        public UserBuilder email(String email) {
+//            this.email = email;
+//            return this;
+//        }
+//
+//        public UserBuilder password(String password) {
+//            this.password = password;
+//            return this;
+//        }
 
 //        public UserBuilder budgetId(long budgetId) {
 //            this.budgetId = budgetId;
 //            return this;
 //        }
-
-        public UserBuilder categoryexp(List<Categoryexp> categoryexp) {
-            this.categoryexp = categoryexp;
-            return this;
-        }
-
-        public UserBuilder categoryinc(List<Categoryinc> categoryinc) {
-            this.categoryinc = categoryinc;
-            return this;
-        }
-
+//
+//        public UserBuilder categoryexp(List<Categoryexp> categoryexp) {
+//            this.categoryexp = categoryexp;
+//            return this;
+//        }
+//
+//        public UserBuilder categoryinc(List<Categoryinc> categoryinc) {
+//            this.categoryinc = categoryinc;
+//            return this;
+//        }
+//
         // Build method
-        public User build() {
-            return new User(userId, name, email, password, role, categoryexp, categoryinc);
-        }
+//        public User build() {
+//            return new User(userId, name, email, password, categoryexp, categoryinc);
+//        }
     }
-}

@@ -76,14 +76,14 @@ public class BudgetService {
         budgetRepository.deleteById(id);
     }
 
-    public List<Budget> getBudgetByUserId() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication instanceof UsernamePasswordAuthenticationToken) {
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            Long userId = Long.parseLong(userDetails.getUsername());
-            return budgetRepository.findBudgetByUserId(userId, Pageable.ofSize(PAGE_SIZE));
-        }
-        return Collections.emptyList();
-    }
+//    public List<Budget> getBudgetByUserId() {
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        if (authentication instanceof UsernamePasswordAuthenticationToken) {
+//            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+//            Long userId = Long.parseLong(userDetails.getUsername());
+//            return budgetRepository.findBudgetByUserId(userId, Pageable.ofSize(PAGE_SIZE));
+//        }
+//        return Collections.emptyList();
+//    }
 
 }
