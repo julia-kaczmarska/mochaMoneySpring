@@ -1,10 +1,12 @@
 package com.example.mochamoneys.config;
 
 import com.example.mochamoneys.service.UserService;
+import com.example.mochamoneys.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -16,18 +18,27 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.stereotype.Service;
 
 
 import javax.sql.DataSource;
 
 @EnableMethodSecurity
-
+@Service
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    private UserServiceImpl userServiceImpl;
+
     @Autowired
-    private UserService userService;
+    public SecurityConfig(@Lazy UserServiceImpl userServiceImpl) {
+        this.userServiceImpl = userServiceImpl;
+    }
+
+//    public SecurityConfig(UserService userService) {
+//        this.userService = userService;
+//    }
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -37,7 +48,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests().antMatchers(
+                        "/**",
                         "/registration**",
+                        "/budget/**",
+                        "/budgetnew/**",
                         "/js/**",
                         "/css/**",
                         "/img/**").permitAll()
@@ -58,7 +72,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
-        auth.setUserDetailsService(userService);
+        auth.setUserDetailsService(userServiceImpl);
         auth.setPasswordEncoder(passwordEncoder());
         return auth;
     }
@@ -67,6 +81,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(authenticationProvider());
     }
-
-
-    }
+}

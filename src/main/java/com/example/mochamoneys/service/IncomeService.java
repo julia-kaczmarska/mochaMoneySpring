@@ -12,17 +12,11 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class IncomeService {
-    private static final int PAGE_SIZE = 3;
 
+    private final IncomeRepository incomeRepository;
 
-    private IncomeRepository incomeRepository;
-
-    public List<Income> getIncomes(int page, Sort.Direction sort) {
-        return incomeRepository.findAllIncomes(
-                PageRequest.of(page, PAGE_SIZE,
-                        Sort.by(sort, "id")
-                )
-        );
+    public List<Income> getIncomes() {
+        return incomeRepository.findAllIncomes();
     }
 
 }

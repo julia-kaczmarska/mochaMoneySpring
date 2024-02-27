@@ -16,15 +16,14 @@ import java.util.List;
 
 @Service
 public class UserServiceImpl extends UserService {
+    private final BCryptPasswordEncoder passwordEncoder;
     private UserRepository userRepository;
     private User user;
 
-    @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
-
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
         super(null);
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -47,5 +46,7 @@ public class UserServiceImpl extends UserService {
     }
 
     private List<? extends GrantedAuthority> mapRoleToAuthorities() {
-        return Collections.singletonList(new SimpleGrantedAuthority(user.getRole()));
-    }}
+        return Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
+    }
+
+}

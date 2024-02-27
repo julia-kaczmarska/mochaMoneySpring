@@ -1,6 +1,7 @@
 package com.example.mochamoneys.service;
 
 import com.example.mochamoneys.model.Budget;
+import com.example.mochamoneys.model.Income;
 import com.example.mochamoneys.model.User;
 import com.example.mochamoneys.repository.BudgetRepository;
 import com.example.mochamoneys.repository.ExpenseRepository;
@@ -27,40 +28,23 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class BudgetService {
 
-    private static final int PAGE_SIZE = 3;
     private final BudgetRepository budgetRepository;
+
     //    private final ExpenseRepository expenseRepository;
-//    private final IncomeRepository incomeRepository;
-    public List<Budget> getBudgetByUserId(Long userId, int page, Sort.Direction sort) {
-        return budgetRepository.findBudgetByUserId(
-                userId,
-                PageRequest.of(page, PAGE_SIZE, sort, "id")
-        );
+    //    private final IncomeRepository incomeRepository;
+
+    public Budget getBudgetByUserId(Long userId) {
+        return budgetRepository.findBudgetByUserId(userId);
     }
 
-
-    public Budget getSingleBudget(long id) {
-        return budgetRepository.findById(id)
-                .orElseThrow();
+    public Long getBudgetIdByUserId(Long userId){
+        Budget budget = budgetRepository.findFirstByUserId(userId);
+        return budget != null ? budget.getBudgetId() : null; // Zwraca budgetId lub null, jeśli nie znaleziono
     }
 
-//    public List<Budget> getBudgetsWithData(int page, Sort.Direction sort) {
-//        List<Budget> allBudgets = budgetRepository.findAllBudgets(PageRequest.of(page, PAGE_SIZE,
-//                Sort.by(sort, "id")
-//        ));
-//        List<Long> ids = allBudgets.stream()
-//                .map(Budget::getBudgetId)
-//                .collect(Collectors.toList());
-//        List<User> users = userRepository.findAllByBudgetIdIn(ids);
-//        allBudgets.forEach(budget -> budget.setUser(extractUsers(users, budget.getBudgetId())));
-//        return allBudgets;
-//    }
-
-//    private List<User> extractUsers(List<User> users, long id) {
-//        return users.stream()
-//                .filter(user -> user.getBudgetId() == id)
-//                .collect(Collectors.toList());
-//    }
+    public List<Object[]> findBudgetAndIncomeDetailsByUserId(Long userId){
+        return budgetRepository.findBudgetAndIncomeDetailsByUserId(userId);
+    }
 
     public Budget addBudget(Budget budget) {
         return budgetRepository.save(budget);

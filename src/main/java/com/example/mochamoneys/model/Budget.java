@@ -19,6 +19,7 @@ public class Budget {
     @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "userId", updatable = false, insertable = false)
     private User user;
+
     @OneToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "budgetId", updatable = false, insertable = false)
     private List<Expense> expense;
@@ -28,13 +29,13 @@ public class Budget {
     private List<Income> income;
 
 
-    public List<Income> getIncome() {
-        return income;
-    }
-
-    public void setIncome(List<Income> income) {
-        this.income = income;
-    }
+//    public List<Income> getIncomes() {
+//        return incomes;
+//    }
+//
+//    public void setIncomes(List<Income> incomes) {
+//        this.incomes = incomes;
+//    }
 
 
 }

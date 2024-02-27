@@ -20,9 +20,6 @@ import java.util.List;
 public class BudgetController {
 
     private final BudgetService budgetService;
-    private final IncomeService incomeService;
-
-
 //    @GetMapping("budgets")
 //    public List<BudgetDto> getBudget(@RequestParam(required = false) Integer page, Sort.Direction sort) {
 //        int pageNumber = page != null && page >= 0 ? page : 0;
@@ -31,29 +28,29 @@ public class BudgetController {
 //    }
 //
 
-    @GetMapping("budget/{user_id}")
-    public List<BudgetDto> getBudget(@RequestParam Long userId, @RequestParam(required = false) Integer page, @RequestParam(required = false) Sort.Direction sort) {
-        int pageNumber = page != null && page >= 0 ? page : 0;
-        Sort.Direction sortDirection = sort != null ? sort : Sort.Direction.ASC;
+    @GetMapping("budget/{userId}")
+    public BudgetDto getBudget(@PathVariable Long userId) {
 
-        List<Budget> budgets = budgetService.getBudgetByUserId(userId, pageNumber, sortDirection);
-        List<BudgetDto> budgetDtos = BudgetDtoMapper.mapToBudgetDtos(budgets);
+        Budget budget = budgetService.getBudgetByUserId(userId);
+        BudgetDto budgetDto = BudgetDtoMapper.mapToBudgetDto(budget);
+        Long budgetId = budgetService.getBudgetIdByUserId(userId);
 
-        // Dla każdego budżetu pobieramy przychody i dodajemy je do odpowiadającego DTO
-        for (Budget budget : budgets) {
-            List<IncomeDto> incomeDtos = IncomeDtoMapper.mapToIncomeDtos(budget.getIncome());
-            // Ustawiamy przychody w DTO budżetu
-            for (BudgetDto budgetDto : budgetDtos) {
-                if (budgetDto.getBudgetId() == budget.getBudgetId()) {
-                    budgetDto.setIncomes(incomeDtos);
-                    break;
-                }
-            }
+        // Pobieramy przychody i dodajemy je do odpowiadającego DTO
+        List<IncomeDto> incomeDtos = budgetDto.getIncomesForBudget(budgetId);
+
+        // Ustawiamy przychody w DTO budżetu
+        if (budgetDto.getBudgetId() == budget.getBudgetId()) {
+            budgetDto.setIncomes(incomeDtos);
         }
-
-        return budgetDtos;
+        return budgetDto;
     }
 
+
+    @GetMapping("/budgetnew/{userId}")
+    public List<Object[]> findBudgetAndIncomeDetailsByUserId(@PathVariable Long userId){
+        List<Object[]> income = budgetService.findBudgetAndIncomeDetailsByUserId(userId);
+        return income;
+    }
 
 
 
@@ -65,19 +62,19 @@ public class BudgetController {
 //        return budgetService.getBudgetsWithData(pageNumber, sortDirection);
 //    }
 
-    @GetMapping("/budgets/{id}")
-    public BudgetDto getSingleBudget(@PathVariable long id) {
-        var budgetId = id != 0 ? id : 1;
-        Budget budget = budgetService.getSingleBudget(budgetId);
-        BudgetDto budgetDto = BudgetDtoMapper.mapToBudgetDto(budget);
-
-        // Pobieramy przychody dla danego budżetu i mapujemy je na DTO
-        List<IncomeDto> incomesForBudget = budgetDto.getIncomesForBudget(budgetId);
-        // Ustawiamy przychody w DTO budżetu
-        budgetDto.setIncomes(incomesForBudget);
-
-        return budgetDto;
-    }
+//    @GetMapping("/budgets/{id}")
+//    public BudgetDto getSingleBudget(@PathVariable long id) {
+//        var budgetId = id != 0 ? id : 1;
+//        Budget budget = budgetService.getSingleBudget(budgetId);
+//        BudgetDto budgetDto = BudgetDtoMapper.mapToBudgetDto(budget);
+//
+//        // Pobieramy przychody dla danego budżetu i mapujemy je na DTO
+//        List<IncomeDto> incomesForBudget = budgetDto.getIncomesForBudget(budgetId);
+//        // Ustawiamy przychody w DTO budżetu
+//        budgetDto.setIncomes(incomesForBudget);
+//
+//        return budgetDto;
+//    }
 
 
 

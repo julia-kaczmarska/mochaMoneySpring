@@ -12,5 +12,6 @@ import java.util.List;
 public interface IncomeRepository extends JpaRepository<Income, Long> {
 
     @Query("SELECT DISTINCT i FROM Income i")
-    List<Income> findAllIncomes(Pageable page);
+    List<Income> findAllIncomes();
+
 }
