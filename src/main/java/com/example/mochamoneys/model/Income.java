@@ -1,8 +1,7 @@
 package com.example.mochamoneys.model;
 
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -11,6 +10,9 @@ import java.time.LocalDate;
 @Entity
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Income {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -24,12 +26,4 @@ public class Income {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "categoryincId", updatable = false, insertable = false)
     private Categoryinc categoryinc;
-
-    public Categoryinc getCategoryinc() {
-        return categoryinc;
-    }
-
-    public void setCategoryinc(Categoryinc categoryinc) {
-        this.categoryinc = categoryinc;
-    }
 }

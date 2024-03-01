@@ -11,17 +11,17 @@ public class CategoryincDtoMapper {
     private CategoryincDtoMapper() {
     }
 
-    public static List<CategoryincDto> mapToCategoryincDtos(List<Categoryinc> categoryincs) {
-        return categoryincs.stream()
-                .map(CategoryincDtoMapper::mapToCategoryincDto)
-                .collect(Collectors.toList());
-    }
-
-    private static CategoryincDto mapToCategoryincDto(Categoryinc categoryinc) {
-        return CategoryincDto.builder()
-                .categoryincId(categoryinc.getCategoryincId())
-                .title(categoryinc.getTitle())
-                .userId(categoryinc.getUserId())
-                .build();
-    }
+//    public static List<CategoryincDto> mapToCategoryincDtos(List<Categoryinc> categoryincs) {
+//        return categoryincs.stream()
+//                .map(CategoryincDtoMapper::mapToCategoryincDto)
+//                .collect(Collectors.toList());
+//    }
+//
+//    private static CategoryincDto mapToCategoryincDto(Categoryinc categoryinc) {
+//        return CategoryincDto.builder()
+//                .categoryincId(categoryinc.getCategoryincId())
+//                .title(categoryinc.getTitle())
+//                .userId(categoryinc.getUserId())
+//                .build();
+//    }
 }

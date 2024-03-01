@@ -1,8 +1,7 @@
 package com.example.mochamoneys.model;
 
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -12,6 +11,9 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Expense {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -1,80 +1,45 @@
 package com.example.mochamoneys.controller;
 
 import com.example.mochamoneys.controller.dto.BudgetDto;
+import com.example.mochamoneys.controller.dto.ExpenseDto;
 import com.example.mochamoneys.controller.dto.IncomeDto;
 import com.example.mochamoneys.controller.mapper.BudgetDtoMapper;
-import com.example.mochamoneys.controller.mapper.IncomeDtoMapper;
 import com.example.mochamoneys.model.Budget;
 import com.example.mochamoneys.service.BudgetService;
-import com.example.mochamoneys.service.IncomeService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import java.security.Principal;
+import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.List;
+
+import static com.example.mochamoneys.service.BudgetDtoService.getLastDayOfMonthUsingYearMonth;
 
 @RestController
 @RequiredArgsConstructor
 public class BudgetController {
 
     private final BudgetService budgetService;
-//    @GetMapping("budgets")
-//    public List<BudgetDto> getBudget(@RequestParam(required = false) Integer page, Sort.Direction sort) {
-//        int pageNumber = page != null && page >= 0 ? page : 0;
-//        Sort.Direction sortDirection = sort != null ? sort : Sort.Direction.ASC;
-//        return BudgetDtoMapper.mapToBudgetDtos(budgetService.getBudgets(pageNumber, sortDirection));
-//    }
-//
 
     @GetMapping("budget/{userId}")
-    public BudgetDto getBudget(@PathVariable Long userId) {
+    public BudgetDto getBudget(@PathVariable Long userId, @RequestParam int year, @RequestParam int month) {
 
         Budget budget = budgetService.getBudgetByUserId(userId);
         BudgetDto budgetDto = BudgetDtoMapper.mapToBudgetDto(budget);
         Long budgetId = budgetService.getBudgetIdByUserId(userId);
+        LocalDate dateFrom = LocalDate.of(year, month, 1);
+        LocalDate dateTo = LocalDate.of(year, month, getLastDayOfMonthUsingYearMonth(YearMonth.of(year, month)));
 
         // Pobieramy przychody i dodajemy je do odpowiadającego DTO
-        List<IncomeDto> incomeDtos = budgetDto.getIncomesForBudget(budgetId);
+        List<IncomeDto> incomeDtos = BudgetDtoMapper.mapToIncomeDtos(budgetService.getIncomeByBudgetIdAndDate(budgetId, dateFrom, dateTo));
+        List<ExpenseDto> expenseDtos = BudgetDtoMapper.mapToExpenseDtos(budgetService.getExpenseByBudgetIdAndDate(budgetId, dateFrom, dateTo));
 
         // Ustawiamy przychody w DTO budżetu
-        if (budgetDto.getBudgetId() == budget.getBudgetId()) {
-            budgetDto.setIncomes(incomeDtos);
-        }
+        budgetDto.setIncomes(incomeDtos);
+        budgetDto.setExpenses(expenseDtos);
+
         return budgetDto;
     }
-
-
-    @GetMapping("/budgetnew/{userId}")
-    public List<Object[]> findBudgetAndIncomeDetailsByUserId(@PathVariable Long userId){
-        List<Object[]> income = budgetService.findBudgetAndIncomeDetailsByUserId(userId);
-        return income;
-    }
-
-
-
-
-//    @GetMapping("/budgets/data")
-//    public List<Budget> getBudgetsWithData(@RequestParam(required = false) Integer page, Sort.Direction sort) {
-//        int pageNumber = page != null && page >= 0 ? page : 0;
-//        Sort.Direction sortDirection = sort != null ? sort : Sort.Direction.ASC;
-//        return budgetService.getBudgetsWithData(pageNumber, sortDirection);
-//    }
-
-//    @GetMapping("/budgets/{id}")
-//    public BudgetDto getSingleBudget(@PathVariable long id) {
-//        var budgetId = id != 0 ? id : 1;
-//        Budget budget = budgetService.getSingleBudget(budgetId);
-//        BudgetDto budgetDto = BudgetDtoMapper.mapToBudgetDto(budget);
-//
-//        // Pobieramy przychody dla danego budżetu i mapujemy je na DTO
-//        List<IncomeDto> incomesForBudget = budgetDto.getIncomesForBudget(budgetId);
-//        // Ustawiamy przychody w DTO budżetu
-//        budgetDto.setIncomes(incomesForBudget);
-//
-//        return budgetDto;
-//    }
 
 
 

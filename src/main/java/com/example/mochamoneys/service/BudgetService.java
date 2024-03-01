@@ -1,6 +1,7 @@
 package com.example.mochamoneys.service;
 
 import com.example.mochamoneys.model.Budget;
+import com.example.mochamoneys.model.Expense;
 import com.example.mochamoneys.model.Income;
 import com.example.mochamoneys.model.User;
 import com.example.mochamoneys.repository.BudgetRepository;
@@ -20,6 +21,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,8 +32,8 @@ public class BudgetService {
 
     private final BudgetRepository budgetRepository;
 
-    //    private final ExpenseRepository expenseRepository;
-    //    private final IncomeRepository incomeRepository;
+        private final ExpenseRepository expenseRepository;
+        private final IncomeRepository incomeRepository;
 
     public Budget getBudgetByUserId(Long userId) {
         return budgetRepository.findBudgetByUserId(userId);
@@ -42,8 +44,12 @@ public class BudgetService {
         return budget != null ? budget.getBudgetId() : null; // Zwraca budgetId lub null, jeśli nie znaleziono
     }
 
-    public List<Object[]> findBudgetAndIncomeDetailsByUserId(Long userId){
-        return budgetRepository.findBudgetAndIncomeDetailsByUserId(userId);
+    public List<Income> getIncomeByBudgetIdAndDate(Long id, LocalDate dateFrom, LocalDate dateTo) {
+        return incomeRepository.findAllByBudgetIdAndDateBetween(id, dateFrom, dateTo);
+    }
+
+    public List<Expense> getExpenseByBudgetIdAndDate(Long id, LocalDate dateFrom, LocalDate dateTo) {
+        return expenseRepository.findAllByBudgetIdAndDateBetween(id, dateFrom, dateTo);
     }
 
     public Budget addBudget(Budget budget) {
@@ -59,15 +65,5 @@ public class BudgetService {
     public void deleteBudget(long id) {
         budgetRepository.deleteById(id);
     }
-
-//    public List<Budget> getBudgetByUserId() {
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        if (authentication instanceof UsernamePasswordAuthenticationToken) {
-//            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-//            Long userId = Long.parseLong(userDetails.getUsername());
-//            return budgetRepository.findBudgetByUserId(userId, Pageable.ofSize(PAGE_SIZE));
-//        }
-//        return Collections.emptyList();
-//    }
 
 }

@@ -1,27 +1,24 @@
 package com.example.mochamoneys.controller.dto;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import com.example.mochamoneys.model.Expense;
+import com.example.mochamoneys.model.Income;
+import com.example.mochamoneys.repository.ExpenseRepository;
+import com.example.mochamoneys.repository.IncomeRepository;
+import lombok.*;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter
 @Setter
 @Builder
+@AllArgsConstructor
 public class BudgetDto {
     private long budgetId;
     private long userId;
     private List<IncomeDto> incomes;
+    private List<ExpenseDto> expenses;
 
-    public List<IncomeDto> getIncomesForBudget(Long budgetId) {
-        return incomes.stream()
-                .filter(incomeDto -> incomeDto.getBudgetId().equals(budgetId))
-                .collect(Collectors.toList());
-    }
-
-    public void setIncomes(List<IncomeDto> incomes) {
-        this.incomes = incomes;
-    }
 }

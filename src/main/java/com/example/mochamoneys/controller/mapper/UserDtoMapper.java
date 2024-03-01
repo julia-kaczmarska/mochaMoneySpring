@@ -11,19 +11,19 @@ public class UserDtoMapper {
     private UserDtoMapper() {
     }
 
-    public static List<UserDto> mapToUserDtos(List<User> users) {
-        return users.stream()
-                .map(UserDtoMapper::mapToUserDto)
-                .collect(Collectors.toList());
-    }
-
-    private static UserDto mapToUserDto(User user) {
-        return UserDto.builder()
-                .userId(user.getUserId())
-                .name(user.getName())
-                .email(user.getEmail())
-                .password(user.getPassword())
-//                .budgetId(user.getBudgetId())
-                .build();
-    }
+//    public static List<UserDto> mapToUserDtos(List<User> users) {
+//        return users.stream()
+//                .map(UserDtoMapper::mapToUserDto)
+//                .collect(Collectors.toList());
+//    }
+//
+//    private static UserDto mapToUserDto(User user) {
+//        return UserDto.builder()
+//                .userId(user.getUserId())
+//                .name(user.getName())
+//                .email(user.getEmail())
+//                .password(user.getPassword())
+////                .budgetId(user.getBudgetId())
+//                .build();
+//    }
 }

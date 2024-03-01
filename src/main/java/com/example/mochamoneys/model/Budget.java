@@ -22,20 +22,9 @@ public class Budget {
 
     @OneToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "budgetId", updatable = false, insertable = false)
-    private List<Expense> expense;
+    private List<Expense> expenses;
 
     @OneToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "budgetId", updatable = false, insertable = false)
-    private List<Income> income;
-
-
-//    public List<Income> getIncomes() {
-//        return incomes;
-//    }
-//
-//    public void setIncomes(List<Income> incomes) {
-//        this.incomes = incomes;
-//    }
-
-
+    private List<Income> incomes;
 }
